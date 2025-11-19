@@ -25,6 +25,8 @@ export default function CreateProduct({ onClose, onSuccess }: CreateProductProps
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadingFile, setUploadingFile] = useState<string>('');
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const promoVideoInputRef = useRef<HTMLInputElement>(null);
@@ -113,9 +115,20 @@ export default function CreateProduct({ onClose, onSuccess }: CreateProductProps
       const filePath = `${mediaType}s/${fileName}`;
 
       console.log('Uploading to storage:', filePath);
+      setUploadingFile('Main media');
+      setUploadProgress(0);
+      
+      // Simuler la progression pour les petits fichiers
+      const progressInterval = setInterval(() => {
+        setUploadProgress(prev => Math.min(prev + 10, 90));
+      }, 200);
+
       const { error: uploadError, data: uploadData } = await supabase.storage
         .from('products')
         .upload(filePath, mediaFile);
+
+      clearInterval(progressInterval);
+      setUploadProgress(100);
 
       if (uploadError) {
         console.error('Upload error:', uploadError);
@@ -134,13 +147,23 @@ export default function CreateProduct({ onClose, onSuccess }: CreateProductProps
       let thumbnailUrl = mediaType === 'video' ? publicUrl : '';
       if (thumbnailFile) {
         console.log('Uploading thumbnail...');
+        setUploadingFile('Cover photo');
+        setUploadProgress(0);
+        
         const thumbFileExt = thumbnailFile.name.split('.').pop();
         const thumbFileName = `${user.id}-thumb-${Date.now()}.${thumbFileExt}`;
         const thumbFilePath = `thumbnails/${thumbFileName}`;
 
+        const progressInterval = setInterval(() => {
+          setUploadProgress(prev => Math.min(prev + 15, 90));
+        }, 150);
+
         const { error: thumbUploadError } = await supabase.storage
           .from('products')
           .upload(thumbFilePath, thumbnailFile);
+
+        clearInterval(progressInterval);
+        setUploadProgress(100);
 
         if (thumbUploadError) {
           console.error('Thumbnail upload error:', thumbUploadError);
@@ -174,13 +197,23 @@ export default function CreateProduct({ onClose, onSuccess }: CreateProductProps
       let promoVideoUrl = null;
       if (promoVideoFile) {
         console.log('Uploading promo video...');
+        setUploadingFile('Promo video');
+        setUploadProgress(0);
+        
         const promoFileExt = promoVideoFile.name.split('.').pop();
         const promoFileName = `${user.id}-promo-${Date.now()}.${promoFileExt}`;
         const promoFilePath = `videos/${promoFileName}`;
 
+        const progressInterval = setInterval(() => {
+          setUploadProgress(prev => Math.min(prev + 10, 90));
+        }, 200);
+
         const { error: promoUploadError } = await supabase.storage
           .from('products')
           .upload(promoFilePath, promoVideoFile);
+
+        clearInterval(progressInterval);
+        setUploadProgress(100);
 
         if (promoUploadError) {
           console.error('Promo upload error:', promoUploadError);
@@ -495,6 +528,28 @@ export default function CreateProduct({ onClose, onSuccess }: CreateProductProps
           {error && (
             <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm">
               {error}
+            </div>
+          )}
+
+          {uploading && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-blue-900">
+                  Uploading {uploadingFile}...
+                </span>
+                <span className="text-sm font-bold text-blue-600">
+                  {uploadProgress}%
+                </span>
+              </div>
+              <div className="w-full bg-blue-200 rounded-full h-2.5 overflow-hidden">
+                <div
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 h-2.5 rounded-full transition-all duration-300 ease-out"
+                  style={{ width: `${uploadProgress}%` }}
+                />
+              </div>
+              <p className="text-xs text-blue-700 mt-2">
+                Please wait, this may take a moment for large files...
+              </p>
             </div>
           )}
 
