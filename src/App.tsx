@@ -1,0 +1,210 @@
+import { useState } from 'react';
+import { useAuth } from './contexts/AuthContext';
+import Auth from './components/Auth';
+import Feed from './components/Feed';
+import CreateProduct from './components/CreateProduct';
+import Profile from './components/Profile';
+import Comments from './components/Comments';
+import Search from './components/Search';
+import Trending from './components/Trending';
+import Bookmarks from './components/Bookmarks';
+import BottomNav from './components/BottomNav';
+import ProductDetail from './components/ProductDetail';
+import Notifications from './components/Notifications';
+import Messages from './components/Messages';
+import PurchaseHistory from './components/PurchaseHistory';
+import Analytics from './components/Analytics';
+import Reviews from './components/Reviews';
+import Categories from './components/Categories';
+import AccessibilityMenu from './components/AccessibilityMenu';
+
+type View = 'feed' | 'create' | 'profile' | 'search' | 'trending' | 'bookmarks';
+
+function App() {
+  const { user, loading } = useAuth();
+  const [activeView, setActiveView] = useState<View>('feed');
+  const [showComments, setShowComments] = useState<string | null>(null);
+  const [showUserProfile, setShowUserProfile] = useState<{ userId: string; productId?: string } | null>(null);
+  const [showProductDetail, setShowProductDetail] = useState<string | null>(null);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showMessages, setShowMessages] = useState(false);
+  const [showPurchaseHistory, setShowPurchaseHistory] = useState(false);
+  const [showAnalytics, setShowAnalytics] = useState(false);
+  const [showReviews, setShowReviews] = useState<string | null>(null);
+  const [showCategories, setShowCategories] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [refreshFeed, setRefreshFeed] = useState(0);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"></div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Auth />;
+  }
+
+  const handleCreateSuccess = () => {
+    setActiveView('feed');
+    setRefreshFeed((prev) => prev + 1);
+  };
+
+  return (
+    <div className="min-h-screen bg-black">
+      {activeView === 'feed' && (
+        <>
+          <BottomNav 
+            activeView={activeView} 
+            onViewChange={setActiveView}
+            onNotificationsClick={() => setShowNotifications(true)}
+            onMessagesClick={() => setShowMessages(true)}
+            onCategoriesClick={() => setShowCategories(true)}
+          />
+          <Feed
+            key={`${refreshFeed}-${selectedCategory}`}
+            onUserClick={(userId, productId) => setShowUserProfile({ userId, productId })}
+            onCommentClick={(productId) => setShowComments(productId)}
+            categoryFilter={selectedCategory}
+          />
+        </>
+      )}
+
+      {activeView === 'create' && (
+        <CreateProduct
+          onClose={() => setActiveView('feed')}
+          onSuccess={handleCreateSuccess}
+        />
+      )}
+
+      {activeView === 'profile' && (
+        <Profile 
+          onClose={() => setActiveView('feed')}
+          onPurchaseHistoryClick={() => setShowPurchaseHistory(true)}
+          onAnalyticsClick={() => setShowAnalytics(true)}
+        />
+      )}
+
+      {activeView === 'search' && (
+        <Search
+          onClose={() => setActiveView('feed')}
+          onProductClick={(productId) => {
+            console.log('Product clicked:', productId);
+            setActiveView('feed');
+          }}
+          onUserClick={(userId) => {
+            setShowUserProfile({ userId });
+            setActiveView('feed');
+          }}
+        />
+      )}
+
+      {activeView === 'trending' && (
+        <Trending
+          onClose={() => setActiveView('feed')}
+          onProductClick={(productId) => {
+            setActiveView('feed');
+          }}
+        />
+      )}
+
+      {activeView === 'bookmarks' && (
+        <Bookmarks
+          onClose={() => setActiveView('feed')}
+          onProductClick={(productId) => {
+            setActiveView('feed');
+          }}
+        />
+      )}
+
+      {showComments && (
+        <Comments
+          productId={showComments}
+          onClose={() => setShowComments(null)}
+        />
+      )}
+
+      {showUserProfile && (
+        <Profile
+          userId={showUserProfile.userId}
+          highlightProductId={showUserProfile.productId}
+          onClose={() => setShowUserProfile(null)}
+          onProductClick={(productId) => {
+            setShowUserProfile(null);
+            setShowProductDetail(productId);
+          }}
+        />
+      )}
+
+      {showProductDetail && (
+        <ProductDetail
+          productId={showProductDetail}
+          onClose={() => setShowProductDetail(null)}
+          onUserClick={(userId) => {
+            setShowProductDetail(null);
+            setShowUserProfile({ userId });
+          }}
+          onReviewsClick={(productId) => {
+            setShowProductDetail(null);
+            setShowReviews(productId);
+          }}
+        />
+      )}
+
+      {showNotifications && (
+        <Notifications
+          onClose={() => setShowNotifications(false)}
+          onNavigate={(link) => {
+            setShowNotifications(false);
+            // Handle navigation based on link
+          }}
+        />
+      )}
+
+      {showMessages && (
+        <Messages
+          onClose={() => setShowMessages(false)}
+        />
+      )}
+
+      {showPurchaseHistory && (
+        <PurchaseHistory
+          onClose={() => setShowPurchaseHistory(false)}
+          onProductClick={(productId) => {
+            setShowPurchaseHistory(false);
+            setShowProductDetail(productId);
+          }}
+        />
+      )}
+
+      {showAnalytics && (
+        <Analytics
+          onClose={() => setShowAnalytics(false)}
+        />
+      )}
+
+      {showReviews && (
+        <Reviews
+          productId={showReviews}
+          onClose={() => setShowReviews(null)}
+        />
+      )}
+
+      {showCategories && (
+        <Categories
+          onClose={() => setShowCategories(false)}
+          onCategorySelect={(category) => {
+            setSelectedCategory(category);
+            setActiveView('feed');
+          }}
+        />
+      )}
+
+      <AccessibilityMenu />
+    </div>
+  );
+}
+
+export default App;
