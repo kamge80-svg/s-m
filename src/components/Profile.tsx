@@ -236,30 +236,30 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
           )}
         </div>
 
-        <div className="grid grid-cols-4 gap-1 mb-6">
-          <div className="glass-effect rounded-lg p-1 hover:bg-white/20 transition flex flex-col items-center justify-center" style={{height: '75%', width: '70%'}}>
-            <div className="text-[10px] font-bold text-white">{stats.products}</div>
-            <div className="text-[6px] text-white/70">Products</div>
+        <div className="grid grid-cols-4 gap-2 mb-6">
+          <div className="glass-effect rounded-xl p-2 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg" style={{height: '75%', width: '80%'}}>
+            <div className="text-sm font-bold text-white">{stats.products}</div>
+            <div className="text-[8px] text-white/70">Products</div>
           </div>
-          <div className="glass-effect rounded-lg p-1 hover:bg-white/20 transition flex flex-col items-center justify-center" style={{height: '75%', width: '70%'}}>
-            <div className="text-[10px] font-bold text-white">{stats.followers}</div>
-            <div className="text-[6px] text-white/70">Followers</div>
+          <div className="glass-effect rounded-xl p-2 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg" style={{height: '75%', width: '80%'}}>
+            <div className="text-sm font-bold text-white">{stats.followers}</div>
+            <div className="text-[8px] text-white/70">Followers</div>
           </div>
-          <div className="glass-effect rounded-lg p-1 hover:bg-white/20 transition flex flex-col items-center justify-center" style={{height: '75%', width: '70%'}}>
-            <div className="text-[10px] font-bold text-white">{stats.following}</div>
-            <div className="text-[6px] text-white/70">Following</div>
+          <div className="glass-effect rounded-xl p-2 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg" style={{height: '75%', width: '80%'}}>
+            <div className="text-sm font-bold text-white">{stats.following}</div>
+            <div className="text-[8px] text-white/70">Following</div>
           </div>
           <button
             onClick={() => isOwnProfile && setShowWallet(true)}
             disabled={!isOwnProfile}
-            className={`glass-effect rounded-xl p-1 transition-all flex flex-col items-center justify-center ${
-              isOwnProfile ? 'hover:bg-white/20 hover:scale-105 cursor-pointer' : 'cursor-default'
+            className={`glass-effect rounded-xl p-2 transition-all flex flex-col items-center justify-center shadow-lg ${
+              isOwnProfile ? 'hover:bg-white/20 hover:scale-105 cursor-pointer' : 'cursor-default opacity-70'
             }`}
-            style={{height: '75%', width: '70%'}}
+            style={{height: '75%', width: '80%'}}
           >
-            <div className="text-[10px] font-bold text-gradient">${stats.revenue.toFixed(2)}</div>
-            <div className="text-[6px] text-white/70">
-              {isOwnProfile ? 'Revenue (Tap)' : 'Revenue'}
+            <div className="text-sm font-bold text-gradient">${stats.revenue.toFixed(2)}</div>
+            <div className="text-[8px] text-white/70">
+              {isOwnProfile ? 'Revenue' : 'Revenue'}
             </div>
           </button>
         </div>
