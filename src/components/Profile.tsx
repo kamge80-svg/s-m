@@ -237,25 +237,25 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
         </div>
 
         <div className="grid grid-cols-4 gap-1 mb-6">
-          <div className="glass-effect rounded-lg p-1 text-center hover:bg-white/20 transition" style={{height: '75%', width: '60%'}}>
+          <div className="glass-effect rounded-lg p-1 hover:bg-white/20 transition flex flex-col items-center justify-center" style={{height: '75%', width: '70%'}}>
             <div className="text-[10px] font-bold text-white">{stats.products}</div>
             <div className="text-[6px] text-white/70">Products</div>
           </div>
-          <div className="glass-effect rounded-lg p-1 text-center hover:bg-white/20 transition" style={{height: '75%', width: '60%'}}>
+          <div className="glass-effect rounded-lg p-1 hover:bg-white/20 transition flex flex-col items-center justify-center" style={{height: '75%', width: '70%'}}>
             <div className="text-[10px] font-bold text-white">{stats.followers}</div>
             <div className="text-[6px] text-white/70">Followers</div>
           </div>
-          <div className="glass-effect rounded-lg p-1 text-center hover:bg-white/20 transition" style={{height: '75%', width: '60%'}}>
+          <div className="glass-effect rounded-lg p-1 hover:bg-white/20 transition flex flex-col items-center justify-center" style={{height: '75%', width: '70%'}}>
             <div className="text-[10px] font-bold text-white">{stats.following}</div>
             <div className="text-[6px] text-white/70">Following</div>
           </div>
           <button
             onClick={() => isOwnProfile && setShowWallet(true)}
             disabled={!isOwnProfile}
-            className={`glass-effect rounded-xl p-1 text-center transition-all ${
+            className={`glass-effect rounded-xl p-1 transition-all flex flex-col items-center justify-center ${
               isOwnProfile ? 'hover:bg-white/20 hover:scale-105 cursor-pointer' : 'cursor-default'
             }`}
-            style={{height: '75%', width: '60%'}}
+            style={{height: '75%', width: '70%'}}
           >
             <div className="text-[10px] font-bold text-gradient">${stats.revenue.toFixed(2)}</div>
             <div className="text-[6px] text-white/70">
