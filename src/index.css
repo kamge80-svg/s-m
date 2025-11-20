@@ -136,3 +136,31 @@ textarea::placeholder {
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(to bottom, #7c3aed, #db2777);
 }
+
+/* Promotion animations */
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 3s ease infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 2s ease-in-out infinite;
+}

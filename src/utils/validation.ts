@@ -19,6 +19,23 @@ export const ALLOWED_VIDEO_TYPES = [
   'video/webm',
 ];
 
+export const ALLOWED_DOCUMENT_TYPES = [
+  'application/pdf',
+  'application/epub+zip',
+];
+
+export const ALLOWED_AUDIO_TYPES = [
+  'audio/mpeg',
+  'audio/mp3',
+  'audio/wav',
+];
+
+export const ALLOWED_ARCHIVE_TYPES = [
+  'application/zip',
+  'application/x-zip-compressed',
+  'application/x-rar-compressed',
+];
+
 export interface ValidationResult {
   valid: boolean;
   error?: string;
@@ -63,11 +80,14 @@ export function validateVideoFile(file: File): ValidationResult {
 export function validateMediaFile(file: File): ValidationResult {
   const isImage = file.type.startsWith('image/');
   const isVideo = file.type.startsWith('video/');
+  const isDocument = ALLOWED_DOCUMENT_TYPES.includes(file.type);
+  const isAudio = ALLOWED_AUDIO_TYPES.includes(file.type);
+  const isArchive = ALLOWED_ARCHIVE_TYPES.includes(file.type);
 
-  if (!isImage && !isVideo) {
+  if (!isImage && !isVideo && !isDocument && !isAudio && !isArchive) {
     return {
       valid: false,
-      error: 'Please select an image or video file',
+      error: 'File type not supported. Allowed: images, videos, PDF, EPUB, MP3, ZIP',
     };
   }
 
@@ -75,7 +95,42 @@ export function validateMediaFile(file: File): ValidationResult {
     return validateImageFile(file);
   }
 
-  return validateVideoFile(file);
+  if (isVideo) {
+    return validateVideoFile(file);
+  }
+
+  // For other file types, check size only
+  if (file.size > MAX_FILE_SIZE) {
+    return {
+      valid: false,
+      error: `File too large. Maximum size: ${MAX_FILE_SIZE / 1024 / 1024}MB`,
+    };
+  }
+
+  return { valid: true };
+}
+
+export function getFileType(file: File): string {
+  if (file.type.startsWith('image/')) return 'image';
+  if (file.type.startsWith('video/')) return 'video';
+  if (file.type.startsWith('audio/')) return 'audio';
+  if (file.type === 'application/pdf') return 'pdf';
+  if (file.type === 'application/epub+zip') return 'ebook';
+  if (ALLOWED_ARCHIVE_TYPES.includes(file.type)) return 'archive';
+  return 'file';
+}
+
+export function getFileIcon(fileType: string): string {
+  const icons: Record<string, string> = {
+    image: '🖼️',
+    video: '🎥',
+    audio: '🎵',
+    pdf: '📄',
+    ebook: '📚',
+    archive: '📦',
+    file: '📁',
+  };
+  return icons[fileType] || '📁';
 }
 
 // Sanitize user input to prevent XSS
