@@ -264,28 +264,28 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
 
         {isOwnProfile && (
           <>
-            <div className="mb-6">
-              <div className="grid grid-cols-2 gap-3">
+            <div className="mb-6 animate-fadeIn">
+              <div className="grid grid-cols-2 gap-4">
                 <button
                   onClick={() => setShowMyAccount(true)}
-                  className="px-6 py-4 glass-effect text-white rounded-xl font-semibold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-2 bg-gradient-to-br from-blue-500/20 to-cyan-500/20"
+                  className="btn-secondary flex items-center justify-center gap-2 bg-gradient-to-br from-blue-500/20 to-cyan-500/20"
                 >
                   <User className="w-5 h-5" />
-                  My Account
+                  <span>My Account</span>
                 </button>
                 <button
                   onClick={() => setShowSellerTools(true)}
-                  className="px-6 py-4 glass-effect text-white rounded-xl font-semibold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                  className="btn-secondary flex items-center justify-center gap-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20"
                 >
                   <Briefcase className="w-5 h-5" />
-                  Seller Tools
+                  <span>Seller Tools</span>
                 </button>
               </div>
             </div>
 
             <button
               onClick={handleSignOut}
-              className="w-full mb-8 px-6 py-3 bg-gradient-to-br from-red-500 to-orange-500 text-white rounded-xl font-bold hover:shadow-glow transition-all hover:scale-105"
+              className="w-full mb-8 btn-primary bg-gradient-to-br from-red-500 to-orange-500"
             >
               Sign Out
             </button>

@@ -49,6 +49,78 @@ textarea::placeholder {
   .shadow-glow-green {
     box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
   }
+
+  /* Boutons standardisés */
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl font-bold transition-all hover:scale-105 shadow-lg;
+    @apply gradient-primary text-white shadow-glow;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl font-bold transition-all hover:scale-105 shadow-lg;
+    @apply glass-effect text-white hover:bg-white/20;
+  }
+
+  .btn-icon {
+    @apply p-3 rounded-xl transition-all hover:scale-110 shadow-md;
+    @apply glass-effect hover:bg-white/20;
+  }
+
+  /* Cards standardisées */
+  .card {
+    @apply glass-effect rounded-2xl p-6 shadow-xl;
+  }
+
+  .card-hover {
+    @apply glass-effect rounded-2xl p-6 shadow-xl transition-all hover:scale-105 hover:shadow-2xl;
+  }
+
+  /* Stats boxes */
+  .stat-box {
+    @apply glass-effect rounded-xl p-3 shadow-lg transition-all hover:scale-105;
+    @apply flex flex-col items-center justify-center;
+  }
+
+  /* Input fields */
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl glass-effect border-2 border-white/20;
+    @apply focus:border-yellow-500 focus:outline-none transition-all;
+  }
+
+  /* Headers */
+  .page-header {
+    @apply sticky top-0 glass-effect border-b border-white/10 p-4;
+    @apply flex items-center justify-between backdrop-blur-xl shadow-xl z-40;
+  }
+
+  /* Animations */
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-in;
+  }
+
+  .animate-slideUp {
+    animation: slideUp 0.4s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes slide-in {
