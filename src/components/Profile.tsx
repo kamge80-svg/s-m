@@ -311,6 +311,7 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
                   <Package className="w-5 h-5" />
                   <span className="text-xs">Bundles</span>
                 </button>
+                {/* Temporarily disabled - Vite cache issue
                 <button
                   onClick={() => window.location.hash = 'create-course'}
                   className="px-4 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-green-500/20 to-emerald-500/20"
@@ -318,6 +319,7 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
                   <GraduationCap className="w-5 h-5" />
                   <span className="text-xs">Create Course</span>
                 </button>
+                */}
               </div>
             </div>
 
