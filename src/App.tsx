@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from './contexts/AuthContext';
 import Auth from './components/Auth';
 import Feed from './components/Feed';
@@ -19,8 +19,11 @@ import Categories from './components/Categories';
 import AccessibilityMenu from './components/AccessibilityMenu';
 import CreateBundle from './components/CreateBundle';
 import PromoCodeManager from './components/PromoCodeManager';
+import CreateCourse from './components/CreateCourse';
+import CourseViewer from './components/CourseViewer';
+import CoursePlayer from './components/CoursePlayer';
 
-type View = 'feed' | 'create' | 'profile' | 'search' | 'trending' | 'bookmarks' | 'bundles' | 'promos';
+type View = 'feed' | 'create' | 'profile' | 'search' | 'trending' | 'bookmarks' | 'bundles' | 'promos' | 'courses';
 
 function App() {
   const { user, loading } = useAuth();
@@ -36,7 +39,25 @@ function App() {
   const [showCategories, setShowCategories] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showCreateBundle, setShowCreateBundle] = useState(false);
+  const [showCreateCourse, setShowCreateCourse] = useState(false);
+  const [showCourseViewer, setShowCourseViewer] = useState<string | null>(null);
+  const [showCoursePlayer, setShowCoursePlayer] = useState<string | null>(null);
   const [refreshFeed, setRefreshFeed] = useState(0);
+
+  // Handle hash navigation
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash === 'promos') setActiveView('promos');
+      else if (hash === 'create-course') setShowCreateCourse(true);
+      else if (hash === 'courses') setActiveView('courses');
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange();
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   if (loading) {
     return (
@@ -100,6 +121,25 @@ function App() {
               ← Back
             </button>
             <PromoCodeManager />
+          </div>
+        </div>
+      )}
+
+      {activeView === 'courses' && (
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pb-20">
+          <div className="max-w-4xl mx-auto p-4">
+            <button
+              onClick={() => setActiveView('feed')}
+              className="mb-4 px-4 py-2 bg-white dark:bg-slate-800 rounded-lg shadow"
+            >
+              ← Back
+            </button>
+            <button
+              onClick={() => setShowCreateCourse(true)}
+              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-purple-700 transition"
+            >
+              Create New Course
+            </button>
           </div>
         </div>
       )}
@@ -226,6 +266,32 @@ function App() {
             setShowCreateBundle(false);
             setRefreshFeed((prev) => prev + 1);
           }}
+        />
+      )}
+
+      {showCreateCourse && (
+        <CreateCourse
+          onClose={() => setShowCreateCourse(false)}
+          onSuccess={() => {
+            setShowCreateCourse(false);
+            setRefreshFeed((prev) => prev + 1);
+          }}
+        />
+      )}
+
+      {showCourseViewer && (
+        <CourseViewer
+          courseId={showCourseViewer}
+          onClose={() => setShowCourseViewer(null)}
+          onEnroll={() => setRefreshFeed((prev) => prev + 1)}
+        />
+      )}
+
+      {showCoursePlayer && (
+        <CoursePlayer
+          lessonId={showCoursePlayer}
+          onClose={() => setShowCoursePlayer(null)}
+          onComplete={() => setRefreshFeed((prev) => prev + 1)}
         />
       )}
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Settings, ShoppingCart, Video, TrendingUp, Tag, Package } from 'lucide-react';
+import { X, Settings, ShoppingCart, Video, TrendingUp, Tag, Package, GraduationCap } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
@@ -296,20 +296,27 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
 
             <div className="mb-4">
               <h3 className="text-white/70 text-sm font-medium mb-3 px-2">Seller Tools</h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 <button
                   onClick={() => window.location.hash = 'promos'}
-                  className="px-6 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                  className="px-4 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20"
                 >
                   <Tag className="w-5 h-5" />
-                  Promo Codes
+                  <span className="text-xs">Promo Codes</span>
                 </button>
                 <button
                   onClick={() => showToast('Bundle creation coming soon!', 'info')}
-                  className="px-6 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-2 bg-gradient-to-br from-blue-500/20 to-cyan-500/20"
+                  className="px-4 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-blue-500/20 to-cyan-500/20"
                 >
                   <Package className="w-5 h-5" />
-                  Bundles
+                  <span className="text-xs">Bundles</span>
+                </button>
+                <button
+                  onClick={() => window.location.hash = 'create-course'}
+                  className="px-4 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-green-500/20 to-emerald-500/20"
+                >
+                  <GraduationCap className="w-5 h-5" />
+                  <span className="text-xs">Create Course</span>
                 </button>
               </div>
             </div>
