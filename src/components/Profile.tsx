@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { X, Settings, ShoppingCart, Video, TrendingUp, Tag, Package, GraduationCap } from 'lucide-react';
+import { X, Settings, ShoppingCart, Video, User, Briefcase } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
 import EditProfile from './EditProfile';
 import Wallet from './Wallet';
+import MyAccount from './MyAccount';
+import SellerTools from './SellerTools';
 import { ProfileSkeleton } from './SkeletonLoader';
 
 interface ProfileProps {
@@ -43,6 +45,8 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
   const [isFollowing, setIsFollowing] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showWallet, setShowWallet] = useState(false);
+  const [showMyAccount, setShowMyAccount] = useState(false);
+  const [showSellerTools, setShowSellerTools] = useState(false);
   const { user, signOut } = useAuth();
   const { showToast } = useToast();
 
@@ -232,28 +236,29 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
           )}
         </div>
 
-        <div className="grid grid-cols-4 gap-2 mb-6">
-          <div className="glass-effect rounded-lg p-2 text-center hover:bg-white/20 transition">
-            <div className="text-base font-bold text-white">{stats.products}</div>
-            <div className="text-[9px] text-white/70">Products</div>
+        <div className="grid grid-cols-4 gap-1 mb-6">
+          <div className="glass-effect rounded-lg p-1 text-center hover:bg-white/20 transition" style={{height: '75%', width: '30%'}}>
+            <div className="text-[10px] font-bold text-white">{stats.products}</div>
+            <div className="text-[6px] text-white/70">Products</div>
           </div>
-          <div className="glass-effect rounded-lg p-2 text-center hover:bg-white/20 transition">
-            <div className="text-base font-bold text-white">{stats.followers}</div>
-            <div className="text-[9px] text-white/70">Followers</div>
+          <div className="glass-effect rounded-lg p-1 text-center hover:bg-white/20 transition" style={{height: '75%', width: '30%'}}>
+            <div className="text-[10px] font-bold text-white">{stats.followers}</div>
+            <div className="text-[6px] text-white/70">Followers</div>
           </div>
-          <div className="glass-effect rounded-lg p-2 text-center hover:bg-white/20 transition">
-            <div className="text-base font-bold text-white">{stats.following}</div>
-            <div className="text-[9px] text-white/70">Following</div>
+          <div className="glass-effect rounded-lg p-1 text-center hover:bg-white/20 transition" style={{height: '75%', width: '30%'}}>
+            <div className="text-[10px] font-bold text-white">{stats.following}</div>
+            <div className="text-[6px] text-white/70">Following</div>
           </div>
           <button
             onClick={() => isOwnProfile && setShowWallet(true)}
             disabled={!isOwnProfile}
-            className={`glass-effect rounded-xl p-4 text-center transition-all ${
+            className={`glass-effect rounded-xl p-1 text-center transition-all ${
               isOwnProfile ? 'hover:bg-white/20 hover:scale-105 cursor-pointer' : 'cursor-default'
             }`}
+            style={{height: '75%', width: '30%'}}
           >
-            <div className="text-2xl font-bold text-gradient">${stats.revenue.toFixed(2)}</div>
-            <div className="text-xs text-white/70">
+            <div className="text-[10px] font-bold text-gradient">${stats.revenue.toFixed(2)}</div>
+            <div className="text-[6px] text-white/70">
               {isOwnProfile ? 'Revenue (Tap)' : 'Revenue'}
             </div>
           </button>
@@ -274,63 +279,35 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
 
         {isOwnProfile && (
           <>
-            <div className="mb-3">
-              <h3 className="text-white/70 text-[10px] font-medium mb-2 px-2">My Account</h3>
-              <div className="grid grid-cols-2 gap-2">
+            <div className="mb-6">
+              <div className="grid grid-cols-2 gap-3">
                 <button
-                  onClick={onPurchaseHistoryClick}
-                  className="px-2 py-2 glass-effect text-white rounded-lg text-[10px] font-semibold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-1"
+                  onClick={() => setShowMyAccount(true)}
+                  className="px-6 py-4 glass-effect text-white rounded-xl font-semibold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-2 bg-gradient-to-br from-blue-500/20 to-cyan-500/20"
                 >
-                  <ShoppingCart className="w-3 h-3" />
-                  Purchases
+                  <User className="w-5 h-5" />
+                  My Account
                 </button>
                 <button
-                  onClick={onAnalyticsClick}
-                  className="px-2 py-2 glass-effect text-white rounded-lg text-[10px] font-semibold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-1"
+                  onClick={() => setShowSellerTools(true)}
+                  className="px-6 py-4 glass-effect text-white rounded-xl font-semibold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20"
                 >
-                  <TrendingUp className="w-3 h-3" />
-                  Analytics
-                </button>
-              </div>
-            </div>
-
-            <div className="mb-3">
-              <h3 className="text-white/70 text-[10px] font-medium mb-2 px-2">Seller Tools</h3>
-              <div className="grid grid-cols-3 gap-2">
-                <button
-                  onClick={() => window.location.hash = 'promos'}
-                  className="px-1.5 py-1.5 glass-effect text-white rounded-md text-[9px] font-semibold hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center gap-0.5 bg-gradient-to-br from-purple-500/20 to-pink-500/20"
-                >
-                  <Tag className="w-3 h-3" />
-                  <span>Promos</span>
-                </button>
-                <button
-                  onClick={() => showToast('Bundle creation coming soon!', 'info')}
-                  className="px-1.5 py-1.5 glass-effect text-white rounded-md text-[9px] font-semibold hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center gap-0.5 bg-gradient-to-br from-blue-500/20 to-cyan-500/20"
-                >
-                  <Package className="w-3 h-3" />
-                  <span>Bundles</span>
-                </button>
-                <button
-                  onClick={() => window.location.hash = 'create-course'}
-                  className="px-1.5 py-1.5 glass-effect text-white rounded-md text-[9px] font-semibold hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center gap-0.5 bg-gradient-to-br from-green-500/20 to-emerald-500/20"
-                >
-                  <GraduationCap className="w-3 h-3" />
-                  <span>Course</span>
+                  <Briefcase className="w-5 h-5" />
+                  Seller Tools
                 </button>
               </div>
             </div>
 
             <button
               onClick={handleSignOut}
-              className="w-full mb-8 px-6 py-4 bg-gradient-to-br from-red-500 to-orange-500 text-white rounded-xl font-bold hover:shadow-glow transition-all hover:scale-105"
+              className="w-full mb-8 px-6 py-3 bg-gradient-to-br from-red-500 to-orange-500 text-white rounded-xl font-bold hover:shadow-glow transition-all hover:scale-105"
             >
               Sign Out
             </button>
           </>
         )}
 
-        <h3 className="text-sm font-bold text-white mb-3">
+        <h3 className="text-lg font-bold text-white mb-4">
           {isOwnProfile ? 'My Products' : 'Products'}
         </h3>
 
@@ -451,6 +428,19 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
         <Wallet
           balance={stats.revenue}
           onClose={() => setShowWallet(false)}
+        />
+      )}
+
+      {showMyAccount && (
+        <MyAccount
+          revenue={stats.revenue}
+          onClose={() => setShowMyAccount(false)}
+        />
+      )}
+
+      {showSellerTools && (
+        <SellerTools
+          onClose={() => setShowSellerTools(false)}
         />
       )}
     </div>
