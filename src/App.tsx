@@ -19,10 +19,7 @@ import Categories from './components/Categories';
 import AccessibilityMenu from './components/AccessibilityMenu';
 import CreateBundle from './components/CreateBundle';
 import PromoCodeManager from './components/PromoCodeManager';
-// Formations - Bug cache Vite persistant, sera corrigé dans une mise à jour
-// import FormationCreate from './components/FormationCreate';
-// import FormationViewer from './components/FormationViewer';
-// import FormationPlayer from './components/FormationPlayer';
+import { CoursesPage } from './pages/CoursesPage';
 
 type View = 'feed' | 'create' | 'profile' | 'search' | 'trending' | 'bookmarks' | 'bundles' | 'promos' | 'courses';
 
@@ -40,9 +37,7 @@ function App() {
   const [showCategories, setShowCategories] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showCreateBundle, setShowCreateBundle] = useState(false);
-  // const [showCreateCourse, setShowCreateCourse] = useState(false);
-  // const [showCourseViewer, setShowCourseViewer] = useState<string | null>(null);
-  // const [showCoursePlayer, setShowCoursePlayer] = useState<string | null>(null);
+  const [showCreateCourse, setShowCreateCourse] = useState(false);
   const [refreshFeed, setRefreshFeed] = useState(0);
 
   // Handle hash navigation
@@ -50,8 +45,8 @@ function App() {
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1);
       if (hash === 'promos') setActiveView('promos');
-      // else if (hash === 'create-course') setShowCreateCourse(true);
-      // else if (hash === 'courses') setActiveView('courses');
+      else if (hash === 'create-course') setShowCreateCourse(true);
+      else if (hash === 'courses') setActiveView('courses');
     };
 
     window.addEventListener('hashchange', handleHashChange);
@@ -126,13 +121,12 @@ function App() {
         </div>
       )}
 
-      {/* Formations - Temporairement désactivé (bug cache Vite)
       {activeView === 'courses' && (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pb-20">
           <div className="max-w-4xl mx-auto p-4">
             <button
               onClick={() => setActiveView('feed')}
-              className="mb-4 px-4 py-2 bg-white dark:bg-slate-800 rounded-lg shadow"
+              className="mb-4 px-4 py-2 bg-white dark:bg-slate-800 rounded-lg shadow text-slate-900 dark:text-white"
             >
               ← Back
             </button>
@@ -145,7 +139,6 @@ function App() {
           </div>
         </div>
       )}
-      */}
 
       {activeView === 'search' && (
         <Search
@@ -272,9 +265,8 @@ function App() {
         />
       )}
 
-      {/* Formations - Temporairement désactivé (bug cache Vite)
       {showCreateCourse && (
-        <FormationCreate
+        <CoursesPage
           onClose={() => setShowCreateCourse(false)}
           onSuccess={() => {
             setShowCreateCourse(false);
@@ -282,23 +274,6 @@ function App() {
           }}
         />
       )}
-
-      {showCourseViewer && (
-        <FormationViewer
-          courseId={showCourseViewer}
-          onClose={() => setShowCourseViewer(null)}
-          onEnroll={() => setRefreshFeed((prev) => prev + 1)}
-        />
-      )}
-
-      {showCoursePlayer && (
-        <FormationPlayer
-          lessonId={showCoursePlayer}
-          onClose={() => setShowCoursePlayer(null)}
-          onComplete={() => setRefreshFeed((prev) => prev + 1)}
-        />
-      )}
-      */}
 
       <AccessibilityMenu />
     </div>
