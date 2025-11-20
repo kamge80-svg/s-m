@@ -19,9 +19,9 @@ import Categories from './components/Categories';
 import AccessibilityMenu from './components/AccessibilityMenu';
 import CreateBundle from './components/CreateBundle';
 import PromoCodeManager from './components/PromoCodeManager';
-import CreateCourse from './components/CreateCourse';
-import CourseViewer from './components/CourseViewer';
-import CoursePlayer from './components/CoursePlayer';
+// import CreateCourse from './components/CreateCourse';
+// import CourseViewer from './components/CourseViewer';
+// import CoursePlayer from './components/CoursePlayer';
 
 type View = 'feed' | 'create' | 'profile' | 'search' | 'trending' | 'bookmarks' | 'bundles' | 'promos' | 'courses';
 
@@ -39,9 +39,9 @@ function App() {
   const [showCategories, setShowCategories] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showCreateBundle, setShowCreateBundle] = useState(false);
-  const [showCreateCourse, setShowCreateCourse] = useState(false);
-  const [showCourseViewer, setShowCourseViewer] = useState<string | null>(null);
-  const [showCoursePlayer, setShowCoursePlayer] = useState<string | null>(null);
+  // const [showCreateCourse, setShowCreateCourse] = useState(false);
+  // const [showCourseViewer, setShowCourseViewer] = useState<string | null>(null);
+  // const [showCoursePlayer, setShowCoursePlayer] = useState<string | null>(null);
   const [refreshFeed, setRefreshFeed] = useState(0);
 
   // Handle hash navigation
@@ -49,8 +49,8 @@ function App() {
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1);
       if (hash === 'promos') setActiveView('promos');
-      else if (hash === 'create-course') setShowCreateCourse(true);
-      else if (hash === 'courses') setActiveView('courses');
+      // else if (hash === 'create-course') setShowCreateCourse(true);
+      // else if (hash === 'courses') setActiveView('courses');
     };
 
     window.addEventListener('hashchange', handleHashChange);
