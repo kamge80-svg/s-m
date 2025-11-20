@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from './contexts/AuthContext';
 import Auth from './components/Auth';
 import Feed from './components/Feed';
@@ -19,11 +19,10 @@ import Categories from './components/Categories';
 import AccessibilityMenu from './components/AccessibilityMenu';
 import CreateBundle from './components/CreateBundle';
 import PromoCodeManager from './components/PromoCodeManager';
-
-// Lazy load course components for better performance
-const CreateCourse = lazy(() => import('./components/CreateCourse'));
-const CourseViewer = lazy(() => import('./components/CourseViewer'));
-const CoursePlayer = lazy(() => import('./components/CoursePlayer'));
+// Courses - temporarily disabled due to Vite cache issue
+// import CourseCreate from './components/CourseCreate';
+// import CourseViewer from './components/CourseViewer';
+// import CoursePlayer from './components/CoursePlayer';
 
 type View = 'feed' | 'create' | 'profile' | 'search' | 'trending' | 'bookmarks' | 'bundles' | 'promos' | 'courses';
 
@@ -41,9 +40,9 @@ function App() {
   const [showCategories, setShowCategories] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showCreateBundle, setShowCreateBundle] = useState(false);
-  const [showCreateCourse, setShowCreateCourse] = useState(false);
-  const [showCourseViewer, setShowCourseViewer] = useState<string | null>(null);
-  const [showCoursePlayer, setShowCoursePlayer] = useState<string | null>(null);
+  // const [showCreateCourse, setShowCreateCourse] = useState(false);
+  // const [showCourseViewer, setShowCourseViewer] = useState<string | null>(null);
+  // const [showCoursePlayer, setShowCoursePlayer] = useState<string | null>(null);
   const [refreshFeed, setRefreshFeed] = useState(0);
 
   // Handle hash navigation
@@ -51,8 +50,8 @@ function App() {
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1);
       if (hash === 'promos') setActiveView('promos');
-      else if (hash === 'create-course') setShowCreateCourse(true);
-      else if (hash === 'courses') setActiveView('courses');
+      // else if (hash === 'create-course') setShowCreateCourse(true);
+      // else if (hash === 'courses') setActiveView('courses');
     };
 
     window.addEventListener('hashchange', handleHashChange);
@@ -127,6 +126,7 @@ function App() {
         </div>
       )}
 
+      {/* Courses temporarily disabled
       {activeView === 'courses' && (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pb-20">
           <div className="max-w-4xl mx-auto p-4">
@@ -145,6 +145,7 @@ function App() {
           </div>
         </div>
       )}
+      */}
 
       {activeView === 'search' && (
         <Search
@@ -271,49 +272,33 @@ function App() {
         />
       )}
 
+      {/* Courses temporarily disabled
       {showCreateCourse && (
-        <Suspense fallback={
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"></div>
-          </div>
-        }>
-          <CreateCourse
-            onClose={() => setShowCreateCourse(false)}
-            onSuccess={() => {
-              setShowCreateCourse(false);
-              setRefreshFeed((prev) => prev + 1);
-            }}
-          />
-        </Suspense>
+        <CourseCreate
+          onClose={() => setShowCreateCourse(false)}
+          onSuccess={() => {
+            setShowCreateCourse(false);
+            setRefreshFeed((prev) => prev + 1);
+          }}
+        />
       )}
 
       {showCourseViewer && (
-        <Suspense fallback={
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"></div>
-          </div>
-        }>
-          <CourseViewer
-            courseId={showCourseViewer}
-            onClose={() => setShowCourseViewer(null)}
-            onEnroll={() => setRefreshFeed((prev) => prev + 1)}
-          />
-        </Suspense>
+        <CourseViewer
+          courseId={showCourseViewer}
+          onClose={() => setShowCourseViewer(null)}
+          onEnroll={() => setRefreshFeed((prev) => prev + 1)}
+        />
       )}
 
       {showCoursePlayer && (
-        <Suspense fallback={
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"></div>
-          </div>
-        }>
-          <CoursePlayer
-            lessonId={showCoursePlayer}
-            onClose={() => setShowCoursePlayer(null)}
-            onComplete={() => setRefreshFeed((prev) => prev + 1)}
-          />
-        </Suspense>
+        <CoursePlayer
+          lessonId={showCoursePlayer}
+          onClose={() => setShowCoursePlayer(null)}
+          onComplete={() => setRefreshFeed((prev) => prev + 1)}
+        />
       )}
+      */}
 
       <AccessibilityMenu />
     </div>
