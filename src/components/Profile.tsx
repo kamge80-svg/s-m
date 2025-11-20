@@ -299,24 +299,24 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
               <div className="grid grid-cols-3 gap-3">
                 <button
                   onClick={() => window.location.hash = 'promos'}
-                  className="px-4 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                  className="px-2 py-2 glass-effect text-white rounded-lg font-bold hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-purple-500/20 to-pink-500/20"
                 >
-                  <Tag className="w-5 h-5" />
-                  <span className="text-xs">Promo Codes</span>
+                  <Tag className="w-4 h-4" />
+                  <span className="text-[10px]">Promos</span>
                 </button>
                 <button
                   onClick={() => showToast('Bundle creation coming soon!', 'info')}
-                  className="px-4 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-blue-500/20 to-cyan-500/20"
+                  className="px-2 py-2 glass-effect text-white rounded-lg font-bold hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-blue-500/20 to-cyan-500/20"
                 >
-                  <Package className="w-5 h-5" />
-                  <span className="text-xs">Bundles</span>
+                  <Package className="w-4 h-4" />
+                  <span className="text-[10px]">Bundles</span>
                 </button>
                 <button
                   onClick={() => window.location.hash = 'create-course'}
-                  className="px-4 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-green-500/20 to-emerald-500/20"
+                  className="px-2 py-2 glass-effect text-white rounded-lg font-bold hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-green-500/20 to-emerald-500/20"
                 >
-                  <GraduationCap className="w-5 h-5" />
-                  <span className="text-xs">Create Course</span>
+                  <GraduationCap className="w-4 h-4" />
+                  <span className="text-[10px]">Course</span>
                 </button>
               </div>
             </div>
