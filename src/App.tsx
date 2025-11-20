@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useAuth } from './contexts/AuthContext';
 import Auth from './components/Auth';
 import Feed from './components/Feed';
@@ -19,9 +19,11 @@ import Categories from './components/Categories';
 import AccessibilityMenu from './components/AccessibilityMenu';
 import CreateBundle from './components/CreateBundle';
 import PromoCodeManager from './components/PromoCodeManager';
-// import CreateCourse from './components/CreateCourse';
-// import CourseViewer from './components/CourseViewer';
-// import CoursePlayer from './components/CoursePlayer';
+
+// Lazy load course components for better performance
+const CreateCourse = lazy(() => import('./components/CreateCourse'));
+const CourseViewer = lazy(() => import('./components/CourseViewer'));
+const CoursePlayer = lazy(() => import('./components/CoursePlayer'));
 
 type View = 'feed' | 'create' | 'profile' | 'search' | 'trending' | 'bookmarks' | 'bundles' | 'promos' | 'courses';
 
@@ -39,9 +41,9 @@ function App() {
   const [showCategories, setShowCategories] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showCreateBundle, setShowCreateBundle] = useState(false);
-  // const [showCreateCourse, setShowCreateCourse] = useState(false);
-  // const [showCourseViewer, setShowCourseViewer] = useState<string | null>(null);
-  // const [showCoursePlayer, setShowCoursePlayer] = useState<string | null>(null);
+  const [showCreateCourse, setShowCreateCourse] = useState(false);
+  const [showCourseViewer, setShowCourseViewer] = useState<string | null>(null);
+  const [showCoursePlayer, setShowCoursePlayer] = useState<string | null>(null);
   const [refreshFeed, setRefreshFeed] = useState(0);
 
   // Handle hash navigation
@@ -49,8 +51,8 @@ function App() {
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1);
       if (hash === 'promos') setActiveView('promos');
-      // else if (hash === 'create-course') setShowCreateCourse(true);
-      // else if (hash === 'courses') setActiveView('courses');
+      else if (hash === 'create-course') setShowCreateCourse(true);
+      else if (hash === 'courses') setActiveView('courses');
     };
 
     window.addEventListener('hashchange', handleHashChange);
@@ -270,29 +272,47 @@ function App() {
       )}
 
       {showCreateCourse && (
-        <CreateCourse
-          onClose={() => setShowCreateCourse(false)}
-          onSuccess={() => {
-            setShowCreateCourse(false);
-            setRefreshFeed((prev) => prev + 1);
-          }}
-        />
+        <Suspense fallback={
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"></div>
+          </div>
+        }>
+          <CreateCourse
+            onClose={() => setShowCreateCourse(false)}
+            onSuccess={() => {
+              setShowCreateCourse(false);
+              setRefreshFeed((prev) => prev + 1);
+            }}
+          />
+        </Suspense>
       )}
 
       {showCourseViewer && (
-        <CourseViewer
-          courseId={showCourseViewer}
-          onClose={() => setShowCourseViewer(null)}
-          onEnroll={() => setRefreshFeed((prev) => prev + 1)}
-        />
+        <Suspense fallback={
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"></div>
+          </div>
+        }>
+          <CourseViewer
+            courseId={showCourseViewer}
+            onClose={() => setShowCourseViewer(null)}
+            onEnroll={() => setRefreshFeed((prev) => prev + 1)}
+          />
+        </Suspense>
       )}
 
       {showCoursePlayer && (
-        <CoursePlayer
-          lessonId={showCoursePlayer}
-          onClose={() => setShowCoursePlayer(null)}
-          onComplete={() => setRefreshFeed((prev) => prev + 1)}
-        />
+        <Suspense fallback={
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"></div>
+          </div>
+        }>
+          <CoursePlayer
+            lessonId={showCoursePlayer}
+            onClose={() => setShowCoursePlayer(null)}
+            onComplete={() => setRefreshFeed((prev) => prev + 1)}
+          />
+        </Suspense>
       )}
 
       <AccessibilityMenu />
