@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Settings, ShoppingCart, Video, TrendingUp } from 'lucide-react';
+import { X, Settings, ShoppingCart, Video, TrendingUp, Tag, Package } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
@@ -274,22 +274,46 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
 
         {isOwnProfile && (
           <>
-            <div className="grid grid-cols-2 gap-3 mb-4">
-              <button
-                onClick={onPurchaseHistoryClick}
-                className="px-6 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-2"
-              >
-                <ShoppingCart className="w-5 h-5" />
-                My Purchases
-              </button>
-              <button
-                onClick={onAnalyticsClick}
-                className="px-6 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-2"
-              >
-                <TrendingUp className="w-5 h-5" />
-                Analytics
-              </button>
+            <div className="mb-4">
+              <h3 className="text-white/70 text-sm font-medium mb-3 px-2">My Account</h3>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={onPurchaseHistoryClick}
+                  className="px-6 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-2"
+                >
+                  <ShoppingCart className="w-5 h-5" />
+                  My Purchases
+                </button>
+                <button
+                  onClick={onAnalyticsClick}
+                  className="px-6 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-2"
+                >
+                  <TrendingUp className="w-5 h-5" />
+                  Analytics
+                </button>
+              </div>
             </div>
+
+            <div className="mb-4">
+              <h3 className="text-white/70 text-sm font-medium mb-3 px-2">Seller Tools</h3>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={() => window.location.hash = 'promos'}
+                  className="px-6 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20"
+                >
+                  <Tag className="w-5 h-5" />
+                  Promo Codes
+                </button>
+                <button
+                  onClick={() => showToast('Bundle creation coming soon!', 'info')}
+                  className="px-6 py-4 glass-effect text-white rounded-xl font-bold hover:bg-white/20 transition-all hover:scale-105 flex items-center justify-center gap-2 bg-gradient-to-br from-blue-500/20 to-cyan-500/20"
+                >
+                  <Package className="w-5 h-5" />
+                  Bundles
+                </button>
+              </div>
+            </div>
+
             <button
               onClick={handleSignOut}
               className="w-full mb-8 px-6 py-4 bg-gradient-to-br from-red-500 to-orange-500 text-white rounded-xl font-bold hover:shadow-glow transition-all hover:scale-105"
