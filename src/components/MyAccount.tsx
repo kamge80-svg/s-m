@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { X, DollarSign, ShoppingCart, TrendingUp } from 'lucide-react';
+import { X, DollarSign, TrendingUp } from 'lucide-react';
 import Wallet from './Wallet';
-import PurchaseHistory from './PurchaseHistory';
 import Analytics from './Analytics';
 
 interface MyAccountProps {
@@ -9,7 +8,7 @@ interface MyAccountProps {
   revenue: number;
 }
 
-type Tab = 'revenue' | 'purchases' | 'analytics';
+type Tab = 'revenue' | 'analytics';
 
 export default function MyAccount({ onClose, revenue }: MyAccountProps) {
   const [activeTab, setActiveTab] = useState<Tab>('revenue');
@@ -29,10 +28,10 @@ export default function MyAccount({ onClose, revenue }: MyAccountProps) {
 
       <div className="max-w-4xl mx-auto p-6">
         {/* Tabs */}
-        <div className="grid grid-cols-3 gap-2 mb-6">
+        <div className="grid grid-cols-2 gap-3 mb-6">
           <button
             onClick={() => setActiveTab('revenue')}
-            className={`px-4 py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
+            className={`px-6 py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
               activeTab === 'revenue'
                 ? 'gradient-primary text-white shadow-glow'
                 : 'glass-effect text-white/70 hover:bg-white/20'
@@ -42,19 +41,8 @@ export default function MyAccount({ onClose, revenue }: MyAccountProps) {
             Revenue
           </button>
           <button
-            onClick={() => setActiveTab('purchases')}
-            className={`px-4 py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
-              activeTab === 'purchases'
-                ? 'gradient-primary text-white shadow-glow'
-                : 'glass-effect text-white/70 hover:bg-white/20'
-            }`}
-          >
-            <ShoppingCart className="w-5 h-5" />
-            Purchases
-          </button>
-          <button
             onClick={() => setActiveTab('analytics')}
-            className={`px-4 py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
+            className={`px-6 py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
               activeTab === 'analytics'
                 ? 'gradient-primary text-white shadow-glow'
                 : 'glass-effect text-white/70 hover:bg-white/20'
@@ -69,9 +57,6 @@ export default function MyAccount({ onClose, revenue }: MyAccountProps) {
         <div className="mt-6">
           {activeTab === 'revenue' && (
             <Wallet balance={revenue} onClose={() => {}} />
-          )}
-          {activeTab === 'purchases' && (
-            <PurchaseHistory onClose={() => {}} />
           )}
           {activeTab === 'analytics' && (
             <Analytics onClose={() => {}} />
