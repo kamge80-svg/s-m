@@ -4,7 +4,6 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
 import EditProfile from './EditProfile';
-import Wallet from './Wallet';
 import MyAccount from './MyAccount';
 import SellerTools from './SellerTools';
 import { ProfileSkeleton } from './SkeletonLoader';
@@ -44,7 +43,6 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
   const [stats, setStats] = useState({ products: 0, revenue: 0, views: 0, followers: 0, following: 0 });
   const [isFollowing, setIsFollowing] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
-  const [showWallet, setShowWallet] = useState(false);
   const [showMyAccount, setShowMyAccount] = useState(false);
   const [showSellerTools, setShowSellerTools] = useState(false);
   const { user, signOut } = useAuth();
@@ -236,32 +234,19 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
           )}
         </div>
 
-        <div className="grid grid-cols-4 gap-2 mb-6">
-          <div className="glass-effect rounded-xl p-2 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg" style={{height: '75%', width: '80%'}}>
-            <div className="text-sm font-bold text-white">{stats.products}</div>
-            <div className="text-[8px] text-white/70">Products</div>
+        <div className="grid grid-cols-3 gap-3 mb-6">
+          <div className="glass-effect rounded-xl p-3 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg" style={{height: '75%', width: '80%'}}>
+            <div className="text-lg font-bold text-white">{stats.products}</div>
+            <div className="text-xs text-white/70">Products</div>
           </div>
-          <div className="glass-effect rounded-xl p-2 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg" style={{height: '75%', width: '80%'}}>
-            <div className="text-sm font-bold text-white">{stats.followers}</div>
-            <div className="text-[8px] text-white/70">Followers</div>
+          <div className="glass-effect rounded-xl p-3 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg" style={{height: '75%', width: '80%'}}>
+            <div className="text-lg font-bold text-white">{stats.followers}</div>
+            <div className="text-xs text-white/70">Followers</div>
           </div>
-          <div className="glass-effect rounded-xl p-2 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg" style={{height: '75%', width: '80%'}}>
-            <div className="text-sm font-bold text-white">{stats.following}</div>
-            <div className="text-[8px] text-white/70">Following</div>
+          <div className="glass-effect rounded-xl p-3 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg" style={{height: '75%', width: '80%'}}>
+            <div className="text-lg font-bold text-white">{stats.following}</div>
+            <div className="text-xs text-white/70">Following</div>
           </div>
-          <button
-            onClick={() => isOwnProfile && setShowWallet(true)}
-            disabled={!isOwnProfile}
-            className={`glass-effect rounded-xl p-2 transition-all flex flex-col items-center justify-center shadow-lg ${
-              isOwnProfile ? 'hover:bg-white/20 hover:scale-105 cursor-pointer' : 'cursor-default opacity-70'
-            }`}
-            style={{height: '75%', width: '80%'}}
-          >
-            <div className="text-sm font-bold text-gradient">${stats.revenue.toFixed(2)}</div>
-            <div className="text-[8px] text-white/70">
-              {isOwnProfile ? 'Revenue' : 'Revenue'}
-            </div>
-          </button>
         </div>
 
         {!isOwnProfile && (
@@ -421,13 +406,6 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
             setShowEditProfile(false);
             window.location.reload();
           }}
-        />
-      )}
-
-      {showWallet && (
-        <Wallet
-          balance={stats.revenue}
-          onClose={() => setShowWallet(false)}
         />
       )}
 
