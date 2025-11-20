@@ -17,8 +17,10 @@ import Analytics from './components/Analytics';
 import Reviews from './components/Reviews';
 import Categories from './components/Categories';
 import AccessibilityMenu from './components/AccessibilityMenu';
+import CreateBundle from './components/CreateBundle';
+import PromoCodeManager from './components/PromoCodeManager';
 
-type View = 'feed' | 'create' | 'profile' | 'search' | 'trending' | 'bookmarks';
+type View = 'feed' | 'create' | 'profile' | 'search' | 'trending' | 'bookmarks' | 'bundles' | 'promos';
 
 function App() {
   const { user, loading } = useAuth();
@@ -33,6 +35,7 @@ function App() {
   const [showReviews, setShowReviews] = useState<string | null>(null);
   const [showCategories, setShowCategories] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [showCreateBundle, setShowCreateBundle] = useState(false);
   const [refreshFeed, setRefreshFeed] = useState(0);
 
   if (loading) {
@@ -85,6 +88,20 @@ function App() {
           onPurchaseHistoryClick={() => setShowPurchaseHistory(true)}
           onAnalyticsClick={() => setShowAnalytics(true)}
         />
+      )}
+
+      {activeView === 'promos' && (
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pb-20">
+          <div className="max-w-4xl mx-auto p-4">
+            <button
+              onClick={() => setActiveView('feed')}
+              className="mb-4 px-4 py-2 bg-white dark:bg-slate-800 rounded-lg shadow"
+            >
+              ← Back
+            </button>
+            <PromoCodeManager />
+          </div>
+        </div>
       )}
 
       {activeView === 'search' && (
@@ -198,6 +215,16 @@ function App() {
           onCategorySelect={(category) => {
             setSelectedCategory(category);
             setActiveView('feed');
+          }}
+        />
+      )}
+
+      {showCreateBundle && (
+        <CreateBundle
+          onClose={() => setShowCreateBundle(false)}
+          onSuccess={() => {
+            setShowCreateBundle(false);
+            setRefreshFeed((prev) => prev + 1);
           }}
         />
       )}
