@@ -19,10 +19,10 @@ import Categories from './components/Categories';
 import AccessibilityMenu from './components/AccessibilityMenu';
 import CreateBundle from './components/CreateBundle';
 import PromoCodeManager from './components/PromoCodeManager';
-// Courses - temporarily disabled due to Vite cache issue
-// import CourseCreate from './components/CourseCreate';
-// import CourseViewer from './components/CourseViewer';
-// import CoursePlayer from './components/CoursePlayer';
+// Formations - Bug cache Vite persistant, sera corrigé dans une mise à jour
+// import FormationCreate from './components/FormationCreate';
+// import FormationViewer from './components/FormationViewer';
+// import FormationPlayer from './components/FormationPlayer';
 
 type View = 'feed' | 'create' | 'profile' | 'search' | 'trending' | 'bookmarks' | 'bundles' | 'promos' | 'courses';
 
@@ -126,7 +126,7 @@ function App() {
         </div>
       )}
 
-      {/* Courses temporarily disabled
+      {/* Formations - Temporairement désactivé (bug cache Vite)
       {activeView === 'courses' && (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pb-20">
           <div className="max-w-4xl mx-auto p-4">
@@ -272,9 +272,9 @@ function App() {
         />
       )}
 
-      {/* Courses temporarily disabled
+      {/* Formations - Temporairement désactivé (bug cache Vite)
       {showCreateCourse && (
-        <CourseCreate
+        <FormationCreate
           onClose={() => setShowCreateCourse(false)}
           onSuccess={() => {
             setShowCreateCourse(false);
@@ -284,7 +284,7 @@ function App() {
       )}
 
       {showCourseViewer && (
-        <CourseViewer
+        <FormationViewer
           courseId={showCourseViewer}
           onClose={() => setShowCourseViewer(null)}
           onEnroll={() => setRefreshFeed((prev) => prev + 1)}
@@ -292,7 +292,7 @@ function App() {
       )}
 
       {showCoursePlayer && (
-        <CoursePlayer
+        <FormationPlayer
           lessonId={showCoursePlayer}
           onClose={() => setShowCoursePlayer(null)}
           onComplete={() => setRefreshFeed((prev) => prev + 1)}
