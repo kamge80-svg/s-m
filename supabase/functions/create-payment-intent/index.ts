@@ -10,7 +10,7 @@ Deno.serve(async (req) => {
 
   try {
     const body = await req.json();
-    const { productId, amount, userId } = body;
+    const { productId, amount, userId, sellerId } = body;
 
     if (!productId || !amount || !userId) {
       throw new Error('Missing required parameters');
@@ -20,6 +20,11 @@ Deno.serve(async (req) => {
     if (!stripeSecretKey) {
       throw new Error('Stripe secret key not configured');
     }
+
+    // Calculate platform fee (7%) and seller amount (93%)
+    const totalAmount = Math.round(amount); // Amount in cents
+    const platformFee = Math.round(totalAmount * 0.07); // 7% commission
+    const sellerAmount = totalAmount - platformFee; // 93% to seller
 
     // Call Stripe API directly using fetch
     const response = await fetch('https://api.stripe.com/v1/payment_intents', {
@@ -34,6 +39,9 @@ Deno.serve(async (req) => {
         'automatic_payment_methods[enabled]': 'true',
         'metadata[productId]': productId,
         'metadata[userId]': userId,
+        'metadata[sellerId]': sellerId || '',
+        'metadata[platformFee]': platformFee.toString(),
+        'metadata[sellerAmount]': sellerAmount.toString(),
       }),
     });
 
