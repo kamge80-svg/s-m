@@ -1,26 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useAuth } from './contexts/AuthContext';
 import { logger } from './utils/logger';
 import Auth from './components/Auth';
 import Feed from './components/Feed';
-import CreateProduct from './components/CreateProduct';
-import Profile from './components/Profile';
-import Comments from './components/Comments';
-import Search from './components/Search';
-import Trending from './components/Trending';
-import Bookmarks from './components/Bookmarks';
 import BottomNav from './components/BottomNav';
-import ProductDetail from './components/ProductDetail';
-import Notifications from './components/Notifications';
-import Messages from './components/Messages';
-import PurchaseHistory from './components/PurchaseHistory';
-import Analytics from './components/Analytics';
-import Reviews from './components/Reviews';
-import Categories from './components/Categories';
 import AccessibilityMenu from './components/AccessibilityMenu';
-import CreateBundle from './components/CreateBundle';
-import PromoCodeManager from './components/PromoCodeManager';
-import { CoursesPage } from './pages/CoursesPage';
+
+// Lazy load heavy components
+const CreateProduct = lazy(() => import('./components/CreateProduct'));
+const Profile = lazy(() => import('./components/Profile'));
+const Comments = lazy(() => import('./components/Comments'));
+const Search = lazy(() => import('./components/Search'));
+const Trending = lazy(() => import('./components/Trending'));
+const Bookmarks = lazy(() => import('./components/Bookmarks'));
+const ProductDetail = lazy(() => import('./components/ProductDetail'));
+const Notifications = lazy(() => import('./components/Notifications'));
+const Messages = lazy(() => import('./components/Messages'));
+const PurchaseHistory = lazy(() => import('./components/PurchaseHistory'));
+const Analytics = lazy(() => import('./components/Analytics'));
+const Reviews = lazy(() => import('./components/Reviews'));
+const Categories = lazy(() => import('./components/Categories'));
+const CreateBundle = lazy(() => import('./components/CreateBundle'));
+const PromoCodeManager = lazy(() => import('./components/PromoCodeManager'));
+const CoursesPage = lazy(() => import('./pages/CoursesPage').then(m => ({ default: m.CoursesPage })));
 
 type View = 'feed' | 'create' | 'profile' | 'search' | 'trending' | 'bookmarks' | 'bundles' | 'promos' | 'courses';
 
@@ -73,8 +75,15 @@ function App() {
     setRefreshFeed((prev) => prev + 1);
   };
 
+  const LoadingSpinner = () => (
+    <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"></div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-black">
+      <Suspense fallback={<LoadingSpinner />}>
       {activeView === 'feed' && (
         <>
           <BottomNav 
@@ -277,6 +286,7 @@ function App() {
       )}
 
       <AccessibilityMenu />
+      </Suspense>
     </div>
   );
 }
