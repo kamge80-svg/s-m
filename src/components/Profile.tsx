@@ -235,15 +235,15 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
         </div>
 
         <div className="grid grid-cols-3 gap-3 mb-6">
-          <div className="glass-effect rounded-xl p-3 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg h-20 w-4/5 mx-auto">
+          <div className="glass-effect rounded-xl p-4 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg">
             <div className="text-lg font-bold text-white">{stats.products}</div>
             <div className="text-xs text-white/70">Products</div>
           </div>
-          <div className="glass-effect rounded-xl p-3 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg h-20 w-4/5 mx-auto">
+          <div className="glass-effect rounded-xl p-4 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg">
             <div className="text-lg font-bold text-white">{stats.followers}</div>
             <div className="text-xs text-white/70">Followers</div>
           </div>
-          <div className="glass-effect rounded-xl p-3 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg h-20 w-4/5 mx-auto">
+          <div className="glass-effect rounded-xl p-4 hover:bg-white/20 transition-all hover:scale-105 flex flex-col items-center justify-center shadow-lg">
             <div className="text-lg font-bold text-white">{stats.following}</div>
             <div className="text-xs text-white/70">Following</div>
           </div>
