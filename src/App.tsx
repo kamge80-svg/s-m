@@ -5,6 +5,7 @@ import Auth from './components/Auth';
 import Feed from './components/Feed';
 import BottomNav from './components/BottomNav';
 import AccessibilityMenu from './components/AccessibilityMenu';
+import AdminButton from './components/AdminButton';
 
 // Lazy load heavy components
 const CreateProduct = lazy(() => import('./components/CreateProduct'));
@@ -23,6 +24,7 @@ const Categories = lazy(() => import('./components/Categories'));
 const CreateBundle = lazy(() => import('./components/CreateBundle'));
 const PromoCodeManager = lazy(() => import('./components/PromoCodeManager'));
 const CoursesPage = lazy(() => import('./pages/CoursesPage').then(m => ({ default: m.CoursesPage })));
+const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
 
 type View = 'feed' | 'create' | 'profile' | 'search' | 'trending' | 'bookmarks' | 'bundles' | 'promos' | 'courses';
 
@@ -38,6 +40,7 @@ function App() {
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showReviews, setShowReviews] = useState<string | null>(null);
   const [showCategories, setShowCategories] = useState(false);
+  const [showAdminDashboard, setShowAdminDashboard] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showCreateBundle, setShowCreateBundle] = useState(false);
   const [showCreateCourse, setShowCreateCourse] = useState(false);
@@ -50,6 +53,7 @@ function App() {
       if (hash === 'promos') setActiveView('promos');
       else if (hash === 'create-course') setShowCreateCourse(true);
       else if (hash === 'courses') setActiveView('courses');
+      else if (hash === 'admin') setShowAdminDashboard(true);
     };
 
     window.addEventListener('hashchange', handleHashChange);
@@ -285,7 +289,14 @@ function App() {
         />
       )}
 
+      {showAdminDashboard && (
+        <AdminDashboard
+          onClose={() => setShowAdminDashboard(false)}
+        />
+      )}
+
       <AccessibilityMenu />
+      <AdminButton onClick={() => setShowAdminDashboard(true)} />
       </Suspense>
     </div>
   );
