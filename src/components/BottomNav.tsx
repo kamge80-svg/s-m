@@ -1,7 +1,5 @@
-import { Home, Plus, User, Search, TrendingUp, Bookmark, Bell, MessageCircle, Grid } from 'lucide-react';
+import { Home, Plus, User, Bell, MessageCircle, Grid } from 'lucide-react';
 import { useNotifications } from '../contexts/NotificationContext';
-import ThemeToggle from './ThemeToggle';
-import LanguageSelector from './LanguageSelector';
 
 interface BottomNavProps {
   activeView: 'feed' | 'create' | 'profile' | 'search' | 'trending' | 'bookmarks';
@@ -20,61 +18,29 @@ export default function BottomNav({ activeView, onViewChange, onNotificationsCli
       <div className="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-white/10 px-3 py-1.5">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           <h1 className="text-base font-bold text-gradient">sîm</h1>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             <button
               onClick={onMessagesClick}
               className="p-2 rounded-lg transition-all glass-effect hover:bg-white/20 text-white/70 hover:text-white relative"
             >
-              <MessageCircle className="w-4 h-4" />
+              <MessageCircle className="w-5 h-5" />
             </button>
             <button
               onClick={onNotificationsClick}
               className="p-2 rounded-lg transition-all glass-effect hover:bg-white/20 text-white/70 hover:text-white relative"
             >
-              <Bell className="w-4 h-4" />
+              <Bell className="w-5 h-5" />
               {unreadCount > 0 && (
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-[8px] font-bold flex items-center justify-center">
                   {unreadCount > 9 ? '9+' : unreadCount}
                 </span>
               )}
             </button>
-            <ThemeToggle />
-            <LanguageSelector />
             <button
               onClick={onCategoriesClick}
               className="p-2 rounded-lg transition-all glass-effect hover:bg-white/20 text-white/70 hover:text-white"
             >
-              <Grid className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => onViewChange('trending')}
-              className={`p-2 rounded-lg transition-all ${
-                activeView === 'trending'
-                  ? 'bg-gradient-to-br from-yellow-500 to-amber-500 text-white shadow-glow'
-                  : 'glass-effect hover:bg-white/20 text-white/70 hover:text-white'
-              }`}
-            >
-              <TrendingUp className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => onViewChange('bookmarks')}
-              className={`p-1.5 rounded-lg transition-all ${
-                activeView === 'bookmarks'
-                  ? 'bg-gradient-to-br from-green-500 to-emerald-600 text-white shadow-glow-green'
-                  : 'glass-effect hover:bg-white/20 text-white/70 hover:text-white'
-              }`}
-            >
-              <Bookmark className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => onViewChange('search')}
-              className={`p-1.5 rounded-lg transition-all ${
-                activeView === 'search'
-                  ? 'bg-white text-black'
-                  : 'glass-effect hover:bg-white/20 text-white/70 hover:text-white'
-              }`}
-            >
-              <Search className="w-4 h-4" />
+              <Grid className="w-5 h-5" />
             </button>
           </div>
         </div>

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { X, Settings, ShoppingCart, Video, User, Briefcase } from 'lucide-react';
+import { X, Settings as SettingsIcon, ShoppingCart, Video, User, Briefcase } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
 import EditProfile from './EditProfile';
 import MyAccount from './MyAccount';
 import SellerTools from './SellerTools';
+import Settings from './Settings';
 import { ProfileSkeleton } from './SkeletonLoader';
 
 interface ProfileProps {
@@ -45,6 +46,7 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showMyAccount, setShowMyAccount] = useState(false);
   const [showSellerTools, setShowSellerTools] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const { user, signOut } = useAuth();
   const { showToast } = useToast();
 
@@ -203,7 +205,7 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
             onClick={() => setShowEditProfile(true)}
             className="p-2 glass-effect hover:bg-white/20 rounded-xl transition"
           >
-            <Settings className="w-5 h-5 text-white" />
+            <SettingsIcon className="w-5 h-5 text-white" />
           </button>
         )}
       </div>
@@ -265,7 +267,7 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
         {isOwnProfile && (
           <>
             <div className="mb-6 animate-fadeIn">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 mb-4">
                 <button
                   onClick={() => setShowMyAccount(true)}
                   className="btn-secondary flex items-center justify-center gap-2 bg-gradient-to-br from-blue-500/20 to-cyan-500/20"
@@ -281,6 +283,13 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
                   <span>Seller Tools</span>
                 </button>
               </div>
+              <button
+                onClick={() => setShowSettings(true)}
+                className="w-full btn-secondary flex items-center justify-center gap-2 bg-gradient-to-br from-slate-500/20 to-slate-600/20"
+              >
+                <SettingsIcon className="w-5 h-5" />
+                <span>Settings</span>
+              </button>
             </div>
 
             <button
@@ -419,6 +428,12 @@ export default function Profile({ userId, highlightProductId, onClose, onProduct
       {showSellerTools && (
         <SellerTools
           onClose={() => setShowSellerTools(false)}
+        />
+      )}
+
+      {showSettings && (
+        <Settings
+          onClose={() => setShowSettings(false)}
         />
       )}
     </div>
