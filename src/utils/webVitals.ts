@@ -79,25 +79,31 @@ export function measureWebVitals() {
 
     // Cumulative Layout Shift (CLS)
     try {
-      let clsValue = 0;
-      const clsObserver = new PerformanceObserver((list) => {
-        const entries = list.getEntries();
-        entries.forEach((entry: any) => {
-          if (!entry.hadRecentInput) {
-            clsValue += entry.value;
-          }
+      // Check if layout-shift is supported
+      const supported = PerformanceObserver.supportedEntryTypes;
+      if (supported && supported.includes('layout-shift')) {
+        let clsValue = 0;
+        const clsObserver = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          entries.forEach((entry: any) => {
+            if (!entry.hadRecentInput) {
+              clsValue += entry.value;
+            }
+          });
+          
+          reportMetric({
+            name: 'CLS',
+            value: clsValue,
+            rating: getRating('CLS', clsValue),
+          });
         });
         
-        reportMetric({
-          name: 'CLS',
-          value: clsValue,
-          rating: getRating('CLS', clsValue),
-        });
-      });
-      
-      clsObserver.observe({ entryTypes: ['layout-shift'] });
+        clsObserver.observe({ entryTypes: ['layout-shift'] });
+      } else {
+        logger.debug('Layout shift observation not supported in this browser');
+      }
     } catch (e) {
-      logger.error('CLS measurement failed:', e);
+      logger.debug('CLS measurement not available:', e);
     }
   }
 
