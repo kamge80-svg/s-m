@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from './contexts/AuthContext';
+import { logger } from './utils/logger';
 import Auth from './components/Auth';
 import Feed from './components/Feed';
 import CreateProduct from './components/CreateProduct';
@@ -144,7 +145,7 @@ function App() {
         <Search
           onClose={() => setActiveView('feed')}
           onProductClick={(productId) => {
-            console.log('Product clicked:', productId);
+            logger.debug('Product clicked:', productId);
             setActiveView('feed');
           }}
           onUserClick={(userId) => {
