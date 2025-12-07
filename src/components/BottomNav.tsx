@@ -23,15 +23,15 @@ export default function BottomNav({ activeView, onViewChange, onNotificationsCli
           <div className="flex items-center gap-1">
             <button
               onClick={onMessagesClick}
-              className="p-1.5 rounded-lg transition-all glass-effect hover:bg-white/20 text-white/70 hover:text-white relative"
+              className="p-2 rounded-lg transition-all glass-effect hover:bg-white/20 text-white/70 hover:text-white relative"
             >
-              <MessageCircle className="w-3.5 h-3.5" />
+              <MessageCircle className="w-4 h-4" />
             </button>
             <button
               onClick={onNotificationsClick}
-              className="p-1.5 rounded-lg transition-all glass-effect hover:bg-white/20 text-white/70 hover:text-white relative"
+              className="p-2 rounded-lg transition-all glass-effect hover:bg-white/20 text-white/70 hover:text-white relative"
             >
-              <Bell className="w-3.5 h-3.5" />
+              <Bell className="w-4 h-4" />
               {unreadCount > 0 && (
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-[8px] font-bold flex items-center justify-center">
                   {unreadCount > 9 ? '9+' : unreadCount}
@@ -42,19 +42,19 @@ export default function BottomNav({ activeView, onViewChange, onNotificationsCli
             <LanguageSelector />
             <button
               onClick={onCategoriesClick}
-              className="p-1.5 rounded-lg transition-all glass-effect hover:bg-white/20 text-white/70 hover:text-white"
+              className="p-2 rounded-lg transition-all glass-effect hover:bg-white/20 text-white/70 hover:text-white"
             >
-              <Grid className="w-3.5 h-3.5" />
+              <Grid className="w-4 h-4" />
             </button>
             <button
               onClick={() => onViewChange('trending')}
-              className={`p-1.5 rounded-lg transition-all ${
+              className={`p-2 rounded-lg transition-all ${
                 activeView === 'trending'
                   ? 'bg-gradient-to-br from-yellow-500 to-amber-500 text-white shadow-glow'
                   : 'glass-effect hover:bg-white/20 text-white/70 hover:text-white'
               }`}
             >
-              <TrendingUp className="w-3.5 h-3.5" />
+              <TrendingUp className="w-4 h-4" />
             </button>
             <button
               onClick={() => onViewChange('bookmarks')}
@@ -64,7 +64,7 @@ export default function BottomNav({ activeView, onViewChange, onNotificationsCli
                   : 'glass-effect hover:bg-white/20 text-white/70 hover:text-white'
               }`}
             >
-              <Bookmark className="w-3.5 h-3.5" />
+              <Bookmark className="w-4 h-4" />
             </button>
             <button
               onClick={() => onViewChange('search')}
@@ -74,7 +74,7 @@ export default function BottomNav({ activeView, onViewChange, onNotificationsCli
                   : 'glass-effect hover:bg-white/20 text-white/70 hover:text-white'
               }`}
             >
-              <Search className="w-3.5 h-3.5" />
+              <Search className="w-4 h-4" />
             </button>
           </div>
         </div>

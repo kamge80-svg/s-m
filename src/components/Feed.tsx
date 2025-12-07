@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
+import { logger } from '../utils/logger';
 import ProductCard from './ProductCard';
 import ProductOptions from './ProductOptions';
 import PaymentModal from './PaymentModal';
@@ -46,7 +47,7 @@ export default function Feed({ onUserClick, onCommentClick, categoryFilter }: Fe
 
   const loadProducts = useCallback(async () => {
     try {
-      console.log('Loading products...', categoryFilter ? `Category: ${categoryFilter}` : 'All');
+      logger.debug('Loading products', { categoryFilter: categoryFilter || 'All' });
       
       let query = supabase
         .from('products')
@@ -65,7 +66,7 @@ export default function Feed({ onUserClick, onCommentClick, categoryFilter }: Fe
         throw productsError;
       }
 
-      console.log('Products loaded:', productsData?.length || 0, 'products');
+      logger.debug('Products loaded successfully', { count: productsData?.length || 0 });
 
       // Then load profiles separately
       if (productsData && productsData.length > 0) {
@@ -147,7 +148,7 @@ export default function Feed({ onUserClick, onCommentClick, categoryFilter }: Fe
       const index = Math.round(scrollTop / windowHeight);
       
       if (index !== currentIndex) {
-        console.log('Scrolled to product:', index);
+        logger.debug('Product scroll changed', { index });
         setCurrentIndex(index);
       }
     };
@@ -211,7 +212,7 @@ export default function Feed({ onUserClick, onCommentClick, categoryFilter }: Fe
         });
         showToast('Shared successfully!', 'success');
       } catch (error) {
-        console.log('Share cancelled');
+        logger.debug('Share cancelled by user');
       }
     } else {
       try {
